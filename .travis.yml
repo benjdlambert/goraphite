@@ -7,5 +7,5 @@ before_script:
   - docker pull blam/go-build
 
 script:
-  - docker run --rm -v "$(pwd):/go/src/github.com/benjdlambert/goraphite" blam/go-build benjdlambert/goraphite build
-  - docker run --rm -v "$(pwd):/go/src/github.com/benjdlambert/goraphite" blam/go-build benjdlambert/goraphite test
+  - docker run --rm -v "$(pwd):/go/src/github.com/benjdlambert/goraphite" blam/go-build github.com/benjdlambert/goraphite build
+  - docker run --rm -v "$(pwd):/go/src/github.com/benjdlambert/goraphite" blam/go-build github.com/benjdlambert/goraphite test

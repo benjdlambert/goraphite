@@ -1,2 +1,4 @@
-# goraphite
-API Client for Graphite in Go
+# GoRaphite
+
+A graphite client for sending and retrieving metrics to/from Graphite API.
+

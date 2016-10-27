@@ -1,0 +1,11 @@
+sudo: required
+
+services:
+  - docker
+
+before_script:
+  - docker pull blam/go-build
+
+script:
+  - docker run --rm -v "$(pwd):/go/src/github.com/benjdlambert/goraphite" blam/go-build benjdlambert/goraphite build
+  - docker run --rm -v "$(pwd):/go/src/github.com/benjdlambert/goraphite" blam/go-build benjdlambert/goraphite test

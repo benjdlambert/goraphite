@@ -1,50 +1,57 @@
 package goraphite
 
 import (
+	"os"
 	"reflect"
 	"testing"
+
+	"github.com/h2non/gock"
+	"github.com/nbio/st"
 )
 
-var host, port = mockGraphiteDetails()
+var host string
+var port int
+var nilClient *Client
+
+func setup() {
+	host, port = mockGraphiteDetails()
+}
+
+func teardown() {
+	gock.Off()
+}
+
+func TestMain(m *testing.M) {
+	setup()
+	retCode := m.Run()
+	teardown()
+	os.Exit(retCode)
+}
 
 func TestNewGoraphite(t *testing.T) {
 	_, err := NewGoraphite(host, port)
-
-	if err != nil {
-		t.Error(err)
-	}
+	st.Expect(t, err, nil)
 }
 
 func TestNewGoraphiteReturnsClient(t *testing.T) {
 	client, _ := NewGoraphite(host, port)
-
-	if reflect.TypeOf(client).String() != "*goraphite.Client" {
-		t.Errorf("Type is wrong: %s", reflect.TypeOf(client))
-	}
+	st.Expect(t, reflect.TypeOf(client).String(), "*goraphite.Client")
 }
 
 func TestErrorWhenInvalidHostProvided(t *testing.T) {
 	client, error := NewGoraphite("", port)
-
-	if error == nil {
-		t.Error("No error was thrown")
-	}
-
-	if client != nil {
-		t.Error("Client is not nil")
-	}
+	st.Reject(t, error, nil)
+	st.Expect(t, client, nilClient)
 }
 
 func TestErrorWhenInvalidPortIsProvided(t *testing.T) {
 	client, error := NewGoraphite(host, -1)
+	st.Reject(t, error, nil)
+	st.Expect(t, client, nilClient)
+}
 
-	if error == nil {
-		t.Error("No error was thrown")
-	}
+func TestStatusCallToGraphite(t *testing.T) {
 
-	if client != nil {
-		t.Error("Client is not nil")
-	}
 }
 
 func mockGraphiteDetails() (string, int) {

@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://travis-ci.org/benjdlambert/goraphite" target="_blank">
-    <img src="https://img.shields.io/travis/benjdlambert/goraphite.svg?maxAge=2592000">
+    <img src="https://img.shields.io/travis/benjdlambert/goraphite.svg?maxAge=30">
   </a>
 </p>
 

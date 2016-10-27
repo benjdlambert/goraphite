@@ -36,7 +36,7 @@ func TestErrorWhenInvalidHostProvided(t *testing.T) {
 }
 
 func TestErrorWhenInvalidPortIsProvided(t *testing.T) {
-	client, error := NewGoraphite(host, 0)
+	client, error := NewGoraphite(host, -1)
 
 	if error == nil {
 		t.Error("No error was thrown")

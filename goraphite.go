@@ -13,6 +13,11 @@ func NewGoraphite(host string, port int) (*Client, error) {
 	if host == "" {
 		return nil, fmt.Errorf("Host should not be nil or empty")
 	}
+
+	if port < 0 {
+		return nil, fmt.Errorf("Port should be a valid, positive integer")
+	}
+
 	return &Client{
 		host,
 		port,

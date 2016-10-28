@@ -18,11 +18,20 @@ func (c *Client) Status() (*Status, error) {
 		return nil, err
 	}
 
+	if response.StatusCode >= 400 {
+		return nil, fmt.Errorf(
+			"Response code: %d recieved from Graphite API",
+			response.StatusCode,
+		)
+	}
+
 	return &Status{response.StatusCode}, nil
 }
 
 func (c *Client) request(path string) (*http.Response, error) {
-	return http.Get(path)
+	return http.Get(
+		fmt.Sprintf("http://%s:%d%s", c.Host, c.Port, path),
+	)
 }
 
 // NewGoraphite creates a client with the host and port provided

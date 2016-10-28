@@ -1,59 +1,51 @@
 package goraphite
 
 import (
-	"os"
 	"reflect"
 	"testing"
 
-	"github.com/h2non/gock"
-	"github.com/nbio/st"
+	. "github.com/onsi/ginkgo"
+	. "github.com/onsi/gomega"
 )
 
-var host string
-var port int
-var nilClient *Client
-
-func setup() {
-	host, port = mockGraphiteDetails()
+func TestGoraphite(t *testing.T) {
+	RegisterFailHandler(Fail)
+	RunSpecs(t, "Goraphite Suite")
 }
 
-func teardown() {
-	gock.Off()
-}
+var _ = Describe("Goraphite", func() {
+	var (
+		host string
+		port int
+	)
 
-func TestMain(m *testing.M) {
-	setup()
-	retCode := m.Run()
-	teardown()
-	os.Exit(retCode)
-}
+	BeforeEach(func() {
+		host, port = "mock.host.com", 1234
+	})
 
-func TestNewGoraphite(t *testing.T) {
-	_, err := NewGoraphite(host, port)
-	st.Expect(t, err, nil)
-}
+	Describe("Creating a Goraphite Client", func() {
+		Context("With valid parameters", func() {
+			It("should return an instance of a Client with no error", func() {
+				client, err := NewGoraphite(host, port)
+				Expect(reflect.TypeOf(client).String()).To(Equal("*goraphite.Client"))
+				Expect(err).To(BeNil())
+			})
+		})
 
-func TestNewGoraphiteReturnsClient(t *testing.T) {
-	client, _ := NewGoraphite(host, port)
-	st.Expect(t, reflect.TypeOf(client).String(), "*goraphite.Client")
-}
+		Context("With invalid parameters", func() {
+			It("Should return an error when port is invalid", func() {
+				port = -1
+				client, err := NewGoraphite(host, port)
+				Expect(client).To(BeNil())
+				Expect(err).Should(HaveOccurred())
+			})
 
-func TestErrorWhenInvalidHostProvided(t *testing.T) {
-	client, error := NewGoraphite("", port)
-	st.Reject(t, error, nil)
-	st.Expect(t, client, nilClient)
-}
-
-func TestErrorWhenInvalidPortIsProvided(t *testing.T) {
-	client, error := NewGoraphite(host, -1)
-	st.Reject(t, error, nil)
-	st.Expect(t, client, nilClient)
-}
-
-func TestStatusCallToGraphite(t *testing.T) {
-
-}
-
-func mockGraphiteDetails() (string, int) {
-	return "mock.host.com", 1234
-}
+			It("Should return an error when host is not valid", func() {
+				host = ""
+				client, err := NewGoraphite(host, port)
+				Expect(client).To(BeNil())
+				Expect(err).Should(HaveOccurred())
+			})
+		})
+	})
+})

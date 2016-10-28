@@ -2,4 +2,9 @@ package: github.com/benjdlambert/goraphite
 import:
 - package: github.com/h2non/gock
   version: ^1.0.1
-- package: github.com/nbio/st
+- package: github.com/onsi/ginkgo
+  version: ^1.2.0
+  subpackages:
+  - ginkgo
+- package: github.com/onsi/gomega
+  version: ^1.0.0

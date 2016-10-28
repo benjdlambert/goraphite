@@ -1,8 +1,37 @@
-hash: 200985ec6d0da7a0b16077b41a3d7a7736b16e7f1364110b410a7de959e7c4d2
-updated: 2016-10-27T15:08:00.891175559+01:00
+hash: 0abb3569b9209c314a2ffcabc1d3dae0a3b2dde25c570f3c81beb376485f01f9
+updated: 2016-10-28T09:11:54.427492392+01:00
 imports:
 - name: github.com/h2non/gock
   version: 94f351a7b5b664969d46263771db3e834edca0f1
-- name: github.com/nbio/st
-  version: e9e8d9816f3268def6dcbd2dea03301f40e9de94
+- name: github.com/onsi/ginkgo
+  version: 462326b1628e124b23f42e87a8f2750e3c4e2d24
+  subpackages:
+  - config
+  - ginkgo
+  - internal/codelocation
+  - internal/containernode
+  - internal/failer
+  - internal/leafnodes
+  - internal/remote
+  - internal/spec
+  - internal/specrunner
+  - internal/suite
+  - internal/testingtproxy
+  - internal/writer
+  - reporters
+  - reporters/stenographer
+  - types
+- name: github.com/onsi/gomega
+  version: a78ae492d53aad5a7a232d0d0462c14c400e3ee7
+  subpackages:
+  - format
+  - internal/assertion
+  - internal/asyncassertion
+  - internal/testingtsupport
+  - matchers
+  - matchers/support/goraph/bipartitegraph
+  - matchers/support/goraph/edge
+  - matchers/support/goraph/node
+  - matchers/support/goraph/util
+  - types
 testImports: []

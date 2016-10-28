@@ -1,6 +1,10 @@
-hash: 0abb3569b9209c314a2ffcabc1d3dae0a3b2dde25c570f3c81beb376485f01f9
-updated: 2016-10-28T09:11:54.427492392+01:00
+hash: aae65f7a43a2d6c10befc1e0b809b2935c39196e16d7c946ed349e06cb7fdddc
+updated: 2016-10-28T13:48:17.488376732+01:00
 imports:
+- name: github.com/antonholmquist/jason
+  version: c23cef7eaa75a6a5b8810120e167bd590d8fd2ab
+- name: github.com/google/go-querystring
+  version: 9235644dd9e52eeae6fa48efd539fdc351a0af53
 - name: github.com/h2non/gock
   version: 94f351a7b5b664969d46263771db3e834edca0f1
 - name: github.com/onsi/ginkgo

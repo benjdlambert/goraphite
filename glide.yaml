@@ -8,3 +8,6 @@ import:
   - ginkgo
 - package: github.com/onsi/gomega
   version: ^1.0.0
+- package: github.com/antonholmquist/jason
+  version: ^1.0.0
+- package: github.com/google/go-querystring

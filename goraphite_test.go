@@ -87,4 +87,25 @@ var _ = Describe("Goraphite", func() {
 			})
 		})
 	})
+
+	Describe("FindMetrics", func() {
+		Context("/metrics/find", func() {
+			BeforeEach(func() {
+				gock.New(fmt.Sprintf("http://%s:%d", host, port)).
+					Get("/metrics/find?query=collectd.*").
+					Reply(200).
+					JSON(`[{
+                        "leaf": 0,
+                        "context": {},
+                        "text": "test1",
+                        "expandable": 1,
+                        "id": "collectd.test1",
+                        "allowChildren": 1
+                    }]`)
+			})
+			It("Should call the right endpoint on the graphite host", func() {
+
+			})
+		})
+	})
 })

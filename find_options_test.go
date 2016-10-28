@@ -33,5 +33,16 @@ var _ = Describe("FindOptions", func() {
 
 			Expect(queryString).To(Equal("format=completer"))
 		})
+
+		It("Should create a proper querystring when more than one value is passed", func() {
+			query := FindOptions{
+				Query:  "collectd.*",
+				Format: "completer",
+			}
+
+			queryString, _ := query.String()
+
+			Expect(queryString).To(Equal("format=completer&query=collectd.%2A"))
+		})
 	})
 })

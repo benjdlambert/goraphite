@@ -1,6 +1,7 @@
 package goraphite
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -30,8 +31,43 @@ func (c *Client) Status() (*Status, error) {
 	return &Status{response.StatusCode}, nil
 }
 
-func (c *Client) FindMetrics(query FindOptions) ([]models.Metric, error) {
-	return nil, nil
+func (c *Client) FindMetrics(query FindOptions) (*[]models.Metric, error) {
+	target := []models.Metric{}
+	queryString, err := query.String()
+
+	if err != nil {
+		return nil, err
+	}
+
+	path := fmt.Sprintf("/metrics/find?%s", queryString)
+
+	err = c.jsonRequest(path, &target)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &target, nil
+}
+
+func (c *Client) jsonRequest(path string, target interface{}) error {
+	response, err := c.request(path)
+
+	if err != nil {
+		return err
+	}
+
+	if response.StatusCode != 200 {
+		return fmt.Errorf(
+			"Received response code %d for path %s",
+			response.StatusCode,
+			path,
+		)
+	}
+
+	defer response.Body.Close()
+
+	return json.NewDecoder(response.Body).Decode(target)
 }
 
 func (c *Client) request(path string) (*http.Response, error) {

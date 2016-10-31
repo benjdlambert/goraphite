@@ -92,7 +92,8 @@ var _ = Describe("Goraphite", func() {
 		Context("/metrics/find", func() {
 			BeforeEach(func() {
 				gock.New(fmt.Sprintf("http://%s:%d", host, port)).
-					Get("/metrics/find?query=collectd.*").
+					Get("/metrics/find").
+					MatchParam("query", "collectd").
 					Reply(200).
 					JSON(`[{
                         "leaf": 0,
@@ -104,15 +105,30 @@ var _ = Describe("Goraphite", func() {
                     }]`)
 			})
 
-			It("Should call the right endpoint on the graphite host", func() {
+			It("Should return the amount of items back correctly", func() {
 				metrics, err := client.FindMetrics(
 					FindOptions{
-						Query: "collectd.*",
+						Query: "collectd",
 					},
 				)
 
 				Expect(err).ToNot(HaveOccurred())
-				Expect(len(metrics)).To(Equal(1))
+				Expect(len(*metrics)).To(Equal(1))
+			})
+
+			It("Should have unmarshalled the response properly", func() {
+				metrics, _ := client.FindMetrics(
+					FindOptions{
+						Query: "collectd",
+					},
+				)
+
+				testMetric := (*metrics)[0]
+
+				Expect(testMetric.ID).To(Equal("collectd.test1"))
+				Expect(testMetric.IsLeaf()).To(Equal(false))
+				Expect(testMetric.IsExpandable()).To(Equal(true))
+				Expect(testMetric.AllowsChildren()).To(Equal(true))
 			})
 		})
 	})

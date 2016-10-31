@@ -45,14 +45,14 @@ var _ = Describe("Goraphite", func() {
 				port = -1
 				client, err := NewGoraphite(host, port)
 				Expect(client).To(BeNil())
-				Expect(err).Should(HaveOccurred())
+				Expect(err).To(HaveOccurred())
 			})
 
 			It("Should return an error when host is not valid", func() {
 				host = ""
 				client, err := NewGoraphite(host, port)
 				Expect(client).To(BeNil())
-				Expect(err).Should(HaveOccurred())
+				Expect(err).To(HaveOccurred())
 			})
 		})
 	})
@@ -67,7 +67,7 @@ var _ = Describe("Goraphite", func() {
 
 			It("Should return a Status struct with the response code", func() {
 				status, err := client.Status()
-				Expect(err).ShouldNot(HaveOccurred())
+				Expect(err).ToNot(HaveOccurred())
 				Expect(reflect.TypeOf(status).String()).To(Equal("*goraphite.Status"))
 				Expect(status.Code).To(Equal(200))
 			})
@@ -82,7 +82,7 @@ var _ = Describe("Goraphite", func() {
 
 			It("Should return an error", func() {
 				status, err := client.Status()
-				Expect(err).Should(HaveOccurred())
+				Expect(err).To(HaveOccurred())
 				Expect(status).To(BeNil())
 			})
 		})
@@ -103,8 +103,16 @@ var _ = Describe("Goraphite", func() {
                         "allowChildren": 1
                     }]`)
 			})
-			It("Should call the right endpoint on the graphite host", func() {
 
+			It("Should call the right endpoint on the graphite host", func() {
+				metrics, err := client.FindMetrics(
+					FindOptions{
+						Query: "collectd.*",
+					},
+				)
+
+				Expect(err).ToNot(HaveOccurred())
+				Expect(len(metrics)).To(Equal(1))
 			})
 		})
 	})

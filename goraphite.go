@@ -3,6 +3,8 @@ package goraphite
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/benjdlambert/goraphite/models"
 )
 
 // Client is the main client for talking to Graphite API
@@ -26,6 +28,10 @@ func (c *Client) Status() (*Status, error) {
 	}
 
 	return &Status{response.StatusCode}, nil
+}
+
+func (c *Client) FindMetrics(query FindOptions) ([]models.Metric, error) {
+	return nil, nil
 }
 
 func (c *Client) request(path string) (*http.Response, error) {

@@ -7,15 +7,15 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestFindOptions(t *testing.T) {
+func TestFindMetrics(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "FindOptions")
+	RunSpecs(t, "FindMetrics")
 }
 
-var _ = Describe("FindOptions", func() {
+var _ = Describe("FindMetrics", func() {
 	Describe("String is built correctly", func() {
 		It("Should be able to add a Query property", func() {
-			query := FindOptions{
+			query := FindMetrics{
 				Query: "collectd.*",
 			}
 
@@ -25,7 +25,7 @@ var _ = Describe("FindOptions", func() {
 		})
 
 		It("Should be able to add Format property", func() {
-			query := FindOptions{
+			query := FindMetrics{
 				Format: "completer",
 			}
 
@@ -35,7 +35,7 @@ var _ = Describe("FindOptions", func() {
 		})
 
 		It("Should create a proper querystring when more than one value is passed", func() {
-			query := FindOptions{
+			query := FindMetrics{
 				Query:  "collectd.*",
 				Format: "completer",
 			}

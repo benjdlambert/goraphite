@@ -34,7 +34,7 @@ func (c *Client) Status() (*Status, error) {
 }
 
 // FindMetrics uses the /metrics/find endpoint to list metrics
-func (c *Client) FindMetrics(query query.FindOptions) (*[]models.Metric, error) {
+func (c *Client) FindMetrics(query query.FindMetrics) (*[]models.Metric, error) {
 	target := []models.Metric{}
 	queryString, err := query.String()
 
@@ -51,6 +51,27 @@ func (c *Client) FindMetrics(query query.FindOptions) (*[]models.Metric, error) 
 	}
 
 	return &target, nil
+}
+
+func (c *Client) GetMetrics(query query.GetMetrics) (*[]models.Target, error) {
+	targets := []models.Target{}
+	query.Format = "json"
+
+	queryString, err := query.String()
+
+	if err != nil {
+		return nil, err
+	}
+
+	path := fmt.Sprintf("/render?%s", queryString)
+
+	err = c.jsonRequest(path, &targets)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &targets, nil
 }
 
 func (c *Client) jsonRequest(path string, target interface{}) error {

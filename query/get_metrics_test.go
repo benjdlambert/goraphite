@@ -7,15 +7,15 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestRenderOptions(t *testing.T) {
+func TestGetMetrics(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "RenderOptions")
+	RunSpecs(t, "GetMetrics")
 }
 
-var _ = Describe("RenderOptions", func() {
+var _ = Describe("GetMetrics", func() {
 	Describe("String is built correctly", func() {
 		It("Should be able to add a Format property", func() {
-			query := RenderOptions{
+			query := GetMetrics{
 				Format: "json",
 			}
 
@@ -25,7 +25,7 @@ var _ = Describe("RenderOptions", func() {
 		})
 
 		It("Should be able to add a Target property", func() {
-			query := RenderOptions{
+			query := GetMetrics{
 				Target: "collectd.*",
 			}
 
@@ -35,7 +35,7 @@ var _ = Describe("RenderOptions", func() {
 		})
 
 		It("Should create a proper querystring when more than one value is passed", func() {
-			query := RenderOptions{
+			query := GetMetrics{
 				Target: "collectd.*",
 				Format: "json",
 			}

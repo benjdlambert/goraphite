@@ -108,7 +108,7 @@ var _ = Describe("Goraphite", func() {
 
 			It("Should return the amount of items back correctly", func() {
 				metrics, err := client.FindMetrics(
-					query.FindOptions{
+					query.FindMetrics{
 						Query: "collectd",
 					},
 				)
@@ -119,7 +119,7 @@ var _ = Describe("Goraphite", func() {
 
 			It("Should have unmarshalled the response properly", func() {
 				metrics, _ := client.FindMetrics(
-					query.FindOptions{
+					query.FindMetrics{
 						Query: "collectd",
 					},
 				)
@@ -130,6 +130,47 @@ var _ = Describe("Goraphite", func() {
 				Expect(testMetric.IsLeaf()).To(Equal(false))
 				Expect(testMetric.IsExpandable()).To(Equal(true))
 				Expect(testMetric.AllowsChildren()).To(Equal(true))
+			})
+		})
+	})
+
+	Describe("GetMetrics", func() {
+		Context("/render", func() {
+			BeforeEach(func() {
+				gock.New(fmt.Sprintf("http://%s:%d", host, port)).
+					Get("/render").
+					MatchParam("format", "json").
+					MatchParam("target", "collectd.*").
+					Reply(200).
+					JSON(`[{
+                        "target": "collectd.1",
+                        "datapoints": [
+                            [1,2], [3,4], [5,6]
+                        ]
+                    }]`)
+			})
+
+			It("Should return the amount of metrics back properly", func() {
+				metrics, err := client.GetMetrics(
+					query.GetMetrics{
+						Target: "collectd.*",
+					},
+				)
+
+				Expect(err).ToNot(HaveOccurred())
+				Expect(len(*metrics)).To(Equal(1))
+			})
+
+			It("Should return the correct amount of datapoints", func() {
+				metrics, err := client.GetMetrics(
+					query.GetMetrics{
+						Target: "collectd.*",
+					},
+				)
+				testMetric := (*metrics)[0]
+
+				Expect(err).ToNot(HaveOccurred())
+				Expect(len(testMetric.Datapoints())).To(Equal(3))
 			})
 		})
 	})

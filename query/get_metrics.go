@@ -2,13 +2,13 @@ package query
 
 import "github.com/google/go-querystring/query"
 
-type FindOptions struct {
-	Query  string `url:"query,omitempty"`
+type GetMetrics struct {
+	Target string `url:"target,omitempty"`
 	Format string `url:"format,omitempty"`
 }
 
-func (f *FindOptions) String() (string, error) {
-	values, error := query.Values(f)
+func (r *GetMetrics) String() (string, error) {
+	values, error := query.Values(r)
 	if error != nil {
 		return "", error
 	}

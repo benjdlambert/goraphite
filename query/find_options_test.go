@@ -1,4 +1,4 @@
-package goraphite
+package query
 
 import (
 	"testing"

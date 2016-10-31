@@ -1,4 +1,4 @@
-package goraphite
+package query
 
 import "github.com/google/go-querystring/query"
 

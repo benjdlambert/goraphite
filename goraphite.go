@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/benjdlambert/goraphite/models"
+	"github.com/benjdlambert/goraphite/query"
 )
 
 // Client is the main client for talking to Graphite API
@@ -14,6 +15,7 @@ type Client struct {
 	Port int
 }
 
+// Status checks the current health of the Graphite API
 func (c *Client) Status() (*Status, error) {
 	response, err := c.request("/")
 
@@ -31,7 +33,8 @@ func (c *Client) Status() (*Status, error) {
 	return &Status{response.StatusCode}, nil
 }
 
-func (c *Client) FindMetrics(query FindOptions) (*[]models.Metric, error) {
+// FindMetrics uses the /metrics/find endpoint to list metrics
+func (c *Client) FindMetrics(query query.FindOptions) (*[]models.Metric, error) {
 	target := []models.Metric{}
 	queryString, err := query.String()
 

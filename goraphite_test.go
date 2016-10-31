@@ -5,6 +5,7 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/benjdlambert/goraphite/query"
 	"github.com/h2non/gock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -107,7 +108,7 @@ var _ = Describe("Goraphite", func() {
 
 			It("Should return the amount of items back correctly", func() {
 				metrics, err := client.FindMetrics(
-					FindOptions{
+					query.FindOptions{
 						Query: "collectd",
 					},
 				)
@@ -118,7 +119,7 @@ var _ = Describe("Goraphite", func() {
 
 			It("Should have unmarshalled the response properly", func() {
 				metrics, _ := client.FindMetrics(
-					FindOptions{
+					query.FindOptions{
 						Query: "collectd",
 					},
 				)

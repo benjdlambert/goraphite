@@ -170,7 +170,7 @@ var _ = Describe("Goraphite", func() {
 				testMetric := (*metrics)[0]
 
 				Expect(err).ToNot(HaveOccurred())
-				Expect(len(testMetric.Datapoints())).To(Equal(3))
+				Expect(len(testMetric.Datapoints)).To(Equal(3))
 			})
 		})
 	})

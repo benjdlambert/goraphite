@@ -4,8 +4,8 @@ import "encoding/json"
 
 type (
 	Datapoint struct {
-		X float64 `json:"x"`
-		Y float64 `json:"y"`
+		Value     float64 `json:"value"`
+		Timestamp int32   `json:"timestamp"`
 	}
 )
 
@@ -17,8 +17,7 @@ func (d *Datapoint) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	d.X = datapointsArray[0]
-	d.Y = datapointsArray[1]
-
+	d.Value = datapointsArray[0]
+	d.Timestamp = int32(datapointsArray[1])
 	return nil
 }

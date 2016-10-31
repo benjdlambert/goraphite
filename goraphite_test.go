@@ -145,7 +145,7 @@ var _ = Describe("Goraphite", func() {
 					JSON(`[{
                         "target": "collectd.1",
                         "datapoints": [
-                            [1,2], [3,4], [5,6]
+                            [null,1477842020], [3,1477842021], [5,14778420203]
                         ]
                     }]`)
 			})
@@ -171,6 +171,19 @@ var _ = Describe("Goraphite", func() {
 
 				Expect(err).ToNot(HaveOccurred())
 				Expect(len(testMetric.Datapoints)).To(Equal(3))
+			})
+
+			It("Should set the Timestamp and the value correctly for null values", func() {
+				metrics, _ := client.GetMetrics(
+					query.GetMetrics{
+						Target: "collectd.*",
+					},
+				)
+				testMetric := (*metrics)[0]
+				firstDatapoint := testMetric.Datapoints[0]
+
+				Expect(firstDatapoint.Value).To(Equal(float64(0)))
+				Expect(firstDatapoint.Timestamp).To(Equal(int32(1477842020)))
 			})
 		})
 	})

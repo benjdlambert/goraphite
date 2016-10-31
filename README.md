@@ -24,7 +24,7 @@ You can find metrics, by using the `FindMetrics` `struct` in the `query` package
 ```go
 metrics, err = client.FindMetrics(
     query.FindMetrics{
-        Query: "collectd.*"
+        Query: "collectd.*",
     },
 )
 ```
@@ -37,7 +37,7 @@ You can get metrics for a given wildcard too, by using the `GetMetrics` `func` a
 ```go
 metrics, err = client.GetMetrics(
     query.GetMetrics{
-        Target: "collectd.*"
+        Target: "collectd.*",
     },
 )
 ```
